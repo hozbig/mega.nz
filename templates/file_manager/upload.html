@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block custom_css %}{% endblock custom_css %}
+
+{% block main %}
+<div class="container pt-5">
+    <div class="row">
+        <div class="col-8 card mx-auto rounded p-3 p-md-5">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form|crispy}}
+                <div class="mb-3" id="upload_size">Your upload size: </div>
+                <button type="submit" class="btn btn-block btn-success">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock main %}
+
+{% block custom_script %}
+<script>
+    document.getElementById("id_file").setAttribute("multiple", "");
+    document.getElementById("div_id_size").setAttribute("hidden", "");
+    document.getElementById("id_file").setAttribute("onchange", "get_file_size()");
+
+    function get_file_size() {
+        var fileSize = document.getElementById('id_file').files[0].size;
+        document.getElementById("upload_size").innerHTML = "Your upload size: " + fileSize + " byte";
+        document.getElementById("id_size").setAttribute("value", fileSize);
+    }
+</script>
+{% endblock custom_script %}
