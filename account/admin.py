@@ -5,6 +5,14 @@ from .models import User
 UserAdmin.fieldsets[1][1]['fields'] = (
     "first_name", "last_name", "email", "email_activation"
 )
+UserAdmin.fieldsets[2][1]['fields'] = (
+    "is_active",
+    "premium",
+    "is_staff",
+    "is_superuser",
+    "groups",
+    "user_permissions",
+)
 UserAdmin.fieldsets += (
     ("Volume manager", {"fields": ("user_uploaded_volume", )}),
 )

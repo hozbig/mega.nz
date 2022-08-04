@@ -6,15 +6,36 @@
 {% block custom_css %}{% endblock custom_css %}
 
 {% block main %}
-<div class="container pt-5">
+<div class="container pt-5 vh-100">
     <div class="row">
-        <div class="col-8 card mx-auto rounded p-3 p-md-5">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{form|crispy}}
-                <div class="mb-3" id="upload_size">Your upload size: </div>
-                <button type="submit" class="btn btn-block btn-success">Submit</button>
-            </form>
+        <div class="col-md-6 card ml-auto rounded p-3 p-md-5">
+            {% if not user.user_uploaded_volume >= 2000000000 %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <div class="mb-3" id="upload_size">Your upload size: </div>
+                    <button type="submit" class="btn btn-block btn-success">Submit</button>
+                </form>
+            {% else %}
+                <h1 class="font-weight-bold text-danger my-auto">You have reached the upload size limit!</h1>
+            {% endif %}
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning p-3 text-center">
+                <h2 class="font-weight-bold m-0" id="show_uploaded_volume"></h2>
+            </div>
+
+            {% if user.premium %}
+            <div class="card bg-success mt-3 p-3 text-center">
+                <i class="fas fa-smile-wink text-white display-3"></i>
+                <h2 class="font-weight-bold mb-0 mt-2 text-warning">PREMIUM!</h2>
+            </div>
+            {% else %}
+            <div class="card bg-secondary mt-3 p-3 text-center">
+                <i class="fas fa-frown text-white display-3"></i>
+                <h2 class="font-weight-bold mb-0 mt-2">FREE!</h2>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -22,14 +43,23 @@
 
 {% block custom_script %}
 <script>
+    document.getElementById("show_uploaded_volume").innerHTML = bytesToSize({{user.user_uploaded_volume}});
+
     document.getElementById("id_file").setAttribute("multiple", "");
     document.getElementById("div_id_size").setAttribute("hidden", "");
     document.getElementById("id_file").setAttribute("onchange", "get_file_size()");
 
     function get_file_size() {
         var fileSize = document.getElementById('id_file').files[0].size;
-        document.getElementById("upload_size").innerHTML = "Your upload size: " + fileSize + " byte";
+        document.getElementById("upload_size").innerHTML = "Your upload size: " + bytesToSize(fileSize);
         document.getElementById("id_size").setAttribute("value", fileSize);
+    }
+
+    function bytesToSize(bytes) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return '0 Byte';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
     }
 </script>
 {% endblock custom_script %}

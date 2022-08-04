@@ -9,3 +9,4 @@ class User(AbstractUser):
         default=0,
         blank=True,
     )
+    premium = models.BooleanField(default=False)
