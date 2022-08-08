@@ -137,4 +137,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ^!^ for using the AbstractUser in account app
 AUTH_USER_MODEL = 'account.User'
 
+LOGIN_REDIRECT_URL = "file_manager:upload"
+LOGOUT_REDIRECT_URL = "account:login"
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

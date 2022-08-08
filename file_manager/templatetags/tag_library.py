@@ -16,11 +16,15 @@ def filename(value):
 
 @register.filter()
 def percentage(value):
-    return round((value*100)/2e+9, 2)  # 2e+9 == 2000000000
+    return round((value*100)/2147483648)
 
 @register.filter()
 def rest_of_limit(value):
-    return size(2e+9 - value)
+    res = 2147483648 - value
+    if res > 1024:
+        return size(res)
+    if res <= 1024:
+        return size(1024)
 
 @register.filter()
 def byte_to_other(value, decimal_place=2):

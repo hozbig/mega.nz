@@ -12,10 +12,7 @@
 
 {% block custom_style %}{% endblock custom_style %}
 
-{% block head_js %}
-<!-- My JS - Custom JS -->
-<script src={% static "dist/js/custom/functions.js" %}></script>
-{% endblock head_js %}
+{% block head_js %}{% endblock head_js %}
 
 {% block main %}
 <!-- Row -->
@@ -118,7 +115,7 @@
 			<div class="panel-wrapper collapse in">
 				<div class="panel-body">
 					<div class="">
-						{% if True %}
+						{% if not user.user_uploaded_volume >= 2147483648 %}
 						<form method="post" enctype="multipart/form-data">
 							{% csrf_token %}
 							{{form|crispy}}
@@ -145,7 +142,10 @@
 							<button type="submit" class="btn btn-block btn-success mt-10">Submit</button>
 						</form>    
 						{% else %}
-						    .
+						    <div class="text-center">
+						    	<h5 class="text-center txt-danger">You have reached your maximum upload limit!</h5>
+						    	<p class="pt-10">Subscribe for unlimited uploads...</p>
+						    </div>
 						{% endif %}
 					</div>	
 				</div>
