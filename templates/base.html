@@ -36,13 +36,13 @@
 	<!-- /Preloader -->
 
 	<!-- #wrapper -->
-    <div class="wrapper theme-6-active box-layout pimary-color-green">
+    <div class="wrapper theme-1-active box-layout pimary-color-green">
 		<!-- Top Menu Items -->
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="mobile-only-brand pull-left">
 				<div class="nav-header pull-left">
 					<div class="logo-wrap">
-						<a href="index.html">
+						<a href="{% url "file_manager:upload" %}">
 							<img class="brand-img" src={% static "dist/img/logo.png" %} alt="brand"/>
 							<span class="brand-text">Pega</span>
 						</a>
@@ -81,35 +81,11 @@
 				<li>
 					<a href="{% url "file_manager:upload" %}"><div class="pull-left"><i class="fa fa-dashboard mr-20"></i><span class="right-nav-text">Dashboard</span></div><div class="clearfix"></div></a>
 				</li>
+				<li>
+					<a href="admin/"><div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">Admin Panel</span></div><div class="clearfix"></div></a>
+				</li>
 
 				<li><hr class="light-grey-hr mb-10"/></li>
-
-				<li>
-					<a class="active" href="javascript:void(0);" data-toggle="collapse" data-target="#dashboard_dr"><div class="pull-left"><i class="zmdi zmdi-landscape mr-20"></i><span class="right-nav-text">drop down</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
-					<ul id="dashboard_dr" class="collapse collapse-level-1">
-						<li>
-							<a href="blank.html">Blank Page</a>
-						</li>
-						<li>
-							<a href="index2.html">Demographic</a>
-						</li>
-						<li>
-							<a href="index3.html">Project</a>
-						</li>
-						<li>
-							<a href="index4.html">Hospital</a>
-						</li>
-						<li>
-							<a href="index5.html">HRM</a>
-						</li>
-						<li>
-							<a href="index6.html">Real Estate</a>
-						</li>
-						<li>
-							<a href="profile.html">profile</a>
-						</li>
-					</ul>
-				</li>
 			</ul>
 		</div>
 		<!-- /Left Sidebar Menu -->

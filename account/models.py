@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
 
 class User(AbstractUser):
@@ -9,4 +10,11 @@ class User(AbstractUser):
         default=0,
         blank=True,
     )
-    premium = models.BooleanField(default=False)
+    premium = models.DateTimeField(default=timezone.now)
+
+    def is_premium(self):
+        if self.premium > timezone.now():
+            return True
+        else:
+            return False
+    is_premium.boolean = True

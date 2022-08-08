@@ -20,7 +20,14 @@
 {% block main %}
 <!-- Row -->
 <div class="row">
-	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+	{% if messages %}
+		{% for message in messages %}	
+		<div class="alert alert-success alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>Yay! Your file has been uploaded successfully. 
+		</div>
+		{% endfor %}
+	{% endif %}
+	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 		<div class="panel panel-default card-view pa-0">
 			<div class="panel-wrapper collapse in">
 				<div class="panel-body pa-0">
@@ -28,11 +35,11 @@
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-									<span class="txt-dark block counter"><span class="counter-anim">{{uploaded_files.count}}</span></span>
+									<span class="txt-success block counter"><span class="counter-anim">{{uploaded_files.count}}</span></span>
 									<span class="weight-500 uppercase-font block font-13">files</span>
 								</div>
 								<div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
-									<i class="icon-user-following data-right-rep-icon txt-light-grey"></i>
+									<i class="icon-layers data-right-rep-icon txt-success"></i>
 								</div>
 							</div>	
 						</div>
@@ -41,7 +48,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 		<div class="panel panel-default card-view pa-0">
 			<div class="panel-wrapper collapse in">
 				<div class="panel-body pa-0">
@@ -49,12 +56,11 @@
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-									<span class="txt-dark block counter" id="show_uploaded_volume_card"></span>
-									<script>document.getElementById("show_uploaded_volume_card").innerHTML = bytesToSize({{user.user_uploaded_volume}});</script>
+									<span class="txt-dark block counter" id="show_uploaded_volume_card">{{user.user_uploaded_volume|byte_to_other:1}}</span>
 									<span class="weight-500 uppercase-font block">upload</span>
 								</div>
 								<div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
-									<i class="icon-control-rewind data-right-rep-icon txt-light-grey"></i>
+									<i class="icon-cloud-upload data-right-rep-icon txt-dark"></i>
 								</div>
 							</div>	
 						</div>
@@ -63,42 +69,33 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
 		<div class="panel panel-default card-view pa-0">
 			<div class="panel-wrapper collapse in">
 				<div class="panel-body pa-0">
 					<div class="sm-data-box">
 						<div class="container-fluid">
+							{% if user.is_premium %}
 							<div class="row">
 								<div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-									<span class="txt-dark block counter"><span class="counter-anim">4,054,876</span></span>
-									<span class="weight-500 uppercase-font block">pageviews</span>
+									<span class="txt-warning block counter">{{user.premium|time_difference}}</span>
+									<span class="weight-500 uppercase-font block">Premium</span>
 								</div>
 								<div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
-									<i class="icon-layers data-right-rep-icon txt-light-grey"></i>
+									<i class="icon-diamond data-right-rep-icon txt-warning"></i>
 								</div>
 							</div>	
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-		<div class="panel panel-default card-view pa-0">
-			<div class="panel-wrapper collapse in">
-				<div class="panel-body pa-0">
-					<div class="sm-data-box">
-						<div class="container-fluid">
-							<div class="row">
+							{% else %}
+						    <div class="row">
 								<div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-									<span class="txt-dark block counter"><span class="counter-anim">46.43</span>%</span>
-									<span class="weight-500 uppercase-font block">growth rate</span>
+									<span class="txt-danger block counter"><span class="counter-anim">{{ user.user_uploaded_volume|percentage }}</span>%</span>
+									<span class="weight-500 uppercase-font block">upload limit</span>
 								</div>
-								<div class="col-xs-6 text-center  pl-0 pr-0 pt-25  data-wrap-right">
-									<div id="sparkline_4" style="width: 100px; overflow: hidden; margin: 0px auto;"></div>
+								<div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
+									<i class="icon-speedometer data-right-rep-icon txt-danger"></i>
 								</div>
-							</div>	
+							</div>
+							{% endif %}
 						</div>
 					</div>
 				</div>
@@ -110,7 +107,53 @@
 
 <!-- Row -->
 <div class="row">
-	<div class="col-lg-9 col-md-7 col-sm-12 col-xs-12">
+	<div class="col-lg-5 col-md-4 col-sm-12 col-xs-12">
+		<div class="panel panel-default card-view">
+			<div class="panel-heading">
+				<div class="pull-left">
+					<h6 class="panel-title txt-dark">File Upload</h6>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="panel-wrapper collapse in">
+				<div class="panel-body">
+					<div class="">
+						{% if True %}
+						<form method="post" enctype="multipart/form-data">
+							{% csrf_token %}
+							{{form|crispy}}
+							<script>
+								document.getElementById("id_file").setAttribute("class", "dropify");
+								document.getElementById("id_file").setAttribute(
+									"data-max-file-size",
+									{% if user.is_premium %}
+									"1G"
+									{% else %}
+									"{{user.user_uploaded_volume|rest_of_limit}}"
+									{% endif %}
+									);
+								document.getElementById("id_file").setAttribute("type", "file");
+
+								document.getElementById("div_id_size").setAttribute("hidden", "");
+								document.getElementById("id_file").setAttribute("onchange", "get_file_size()");
+
+								function get_file_size() {
+									var fileSize = document.getElementById('id_file').files[0].size;
+									document.getElementById("id_size").setAttribute("value", fileSize);
+								}
+							</script>
+							<button type="submit" class="btn btn-block btn-success mt-10">Submit</button>
+						</form>    
+						{% else %}
+						    .
+						{% endif %}
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-7 col-md-4 col-sm-12 col-xs-12">
 		<div class="panel panel-default card-view panel-refresh">
 			<div class="refresh-container">
 				<div class="la-anim-1"></div>
@@ -144,13 +187,10 @@
 									{% for item in uploaded_files %}
 									<tr>
 										<td><span class="txt-dark weight-500">{{item.file|filename}}</span></td>
-										<td>{{item.divide_to}}</td>
-										<td><span class="txt-success"><i class="zmdi zmdi-caret-up mr-10 font-20"></i><span>{{item.format}}</span></span></td>
+										<td><span class="txt-success"><span>{{item.divide_to}}</span></span></td>
+										<td>{{item.format}}</td>
 										<td>
-											<span class="txt-dark weight-500" id="show_uploaded_volume_{{item.id}}">
-
-											</span>
-											<script>document.getElementById("show_uploaded_volume_{{item.id}}").innerHTML = bytesToSize({{item.size}});</script>
+											<span class="txt-dark weight-500">{{item.size|byte_to_other:1}}</span>
 										</td>
 										<td>
 											<span class="label label-primary">{{item.created_time|date:'Y/m/d'}}</span>
@@ -162,123 +202,6 @@
 						</div>
 					</div>	
 				</div>	
-			</div>
-		</div>
-	</div>
-	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-		<div class="panel panel-default card-view">
-			<div class="panel-wrapper collapse in">
-				<div class="panel-body sm-data-box-1">
-					<span class="uppercase-font weight-500 font-14 block text-center txt-dark">YOUR UPLOAD VOULME</span>	
-					<div class="cus-sat-stat weight-500 txt-success text-center mt-5">
-						<span class="counter-anim">93.13</span><span>%</span>
-					</div>
-					<div class="progress-anim mt-20">
-						<div class="progress">
-							<div class="progress-bar progress-bar-success wow animated progress-animated" role="progressbar" aria-valuenow="93.12" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
-					</div>
-					<ul class="flex-stat mt-5">
-						<li>
-							<span class="block">Previous</span>
-							<span class="block txt-dark weight-500 font-15">79.82</span>
-						</li>
-						<li>
-							<span class="block">% Change</span>
-							<span class="block txt-dark weight-500 font-15">+14.29</span>
-						</li>
-						<li>
-							<span class="block">Trend</span>
-							<span class="block">
-								<i class="zmdi zmdi-trending-up txt-success font-20"></i>
-							</span>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="panel panel-default card-view">
-			<div class="panel-heading">
-				<div class="pull-left">
-					<h6 class="panel-title txt-dark">browser stats</h6>
-				</div>
-				<div class="pull-right">
-					<a href="#" class="pull-left inline-block mr-15">
-						<i class="zmdi zmdi-download"></i>
-					</a>
-					<a href="#" class="pull-left inline-block close-panel" data-effect="fadeOut">
-						<i class="zmdi zmdi-close"></i>
-					</a>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<div class="panel-wrapper collapse in">
-				<div class="panel-body">
-					<div>
-						<span class="pull-left inline-block capitalize-font txt-dark">
-							google chrome
-						</span>
-						<span class="label label-warning pull-right">50%</span>
-						<div class="clearfix"></div>
-						<hr class="light-grey-hr row mt-10 mb-10"/>
-						<span class="pull-left inline-block capitalize-font txt-dark">
-							mozila firefox
-						</span>
-						<span class="label label-danger pull-right">10%</span>
-						<div class="clearfix"></div>
-						<hr class="light-grey-hr row mt-10 mb-10"/>
-						<span class="pull-left inline-block capitalize-font txt-dark">
-							Internet explorer
-						</span>
-						<span class="label label-success pull-right">30%</span>
-						<div class="clearfix"></div>
-						<hr class="light-grey-hr row mt-10 mb-10"/>
-						<span class="pull-left inline-block capitalize-font txt-dark">
-							safari
-						</span>
-						<span class="label label-primary pull-right">10%</span>
-						<div class="clearfix"></div>
-					</div>
-				</div>	
-			</div>
-		</div>
-	</div>
-</div>
-<!-- /Row -->
-
-<!-- Row -->
-<div class="row">
-	<div class="col-sm-12 ol-md-12 col-xs-12">
-		<div class="panel panel-default card-view">
-			<div class="panel-heading">
-				<div class="pull-left">
-					<h6 class="panel-title txt-dark">File Upload</h6>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<div class="panel-wrapper collapse in">
-				<div class="panel-body">
-					<div class="">
-						<form method="post" enctype="multipart/form-data">
-							{% csrf_token %}
-							{{form|crispy}}
-							<script>
-								document.getElementById("id_file").setAttribute("class", "dropify");
-								document.getElementById("id_file").setAttribute("data-max-file-size", "1G");
-								document.getElementById("id_file").setAttribute("type", "file");
-
-								document.getElementById("div_id_size").setAttribute("hidden", "");
-								document.getElementById("id_file").setAttribute("onchange", "get_file_size()");
-
-								function get_file_size() {
-									var fileSize = document.getElementById('id_file').files[0].size;
-									document.getElementById("id_size").setAttribute("value", fileSize);
-								}
-							</script>
-							<button type="submit" class="btn btn-block btn-success mt-10">Submit</button>
-						</form>
-					</div>	
-				</div>
 			</div>
 		</div>
 	</div>
