@@ -10,7 +10,16 @@
 <link href={% static "vendors/bower_components/dropify/dist/css/dropify.min.css" %} rel="stylesheet" type="text/css"/>
 {% endblock extra_style %}
 
-{% block custom_style %}{% endblock custom_style %}
+{% block custom_style %}
+<style>
+	label {
+		color: #212121;
+	}
+	.text-muted {
+		color: #f1a1c7;
+	}
+</style>
+{% endblock custom_style %}
 
 {% block head_js %}{% endblock head_js %}
 
@@ -28,35 +37,33 @@
 				</div>
 				{% endfor %}
 				{% endif %}
-				
+
 				<div class="col-sm-12 col-xs-12">
 					<div class="mb-30">
-						<h3 class="text-center txt-dark mb-10">Sign in to Pega</h3>
+						<h3 class="text-center txt-pink mb-10">Register in to Pega</h3>
 						<h6 class="text-center nonecase-font txt-grey">Enter your details below</h6>
 					</div>	
 					<div class="form-wrap">
 						<form method="post">
 							{% csrf_token %}
-							<div class="form-group">
-								<label class="control-label mb-10" for="exampleInputEmail_2">User name</label>
-								<input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username" class="form-control" placeholder="Enter username">
-							</div>
-							<div class="form-group">
-								<label class="pull-left control-label mb-10" for="exampleInputpwd_2">Password</label>
-								<!-- <a class=type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username""capitalize-font txt-primary block mb-10 pull-right font-12" href="forgot-password.html">forgot password ?</a>
-								<div class="clearfix"></div> -->
-								<input type="password" name="password" autocomplete="current-password" required id="id_password" class="form-control" placeholder="Enter pwd">
-							</div>
+							{{form|crispy}}
+
+							<script>
+								document.getElementById("id_username").setAttribute("class", "form-control");
+								document.getElementById("id_username").setAttribute("placeholder", "Enter username");
+
+								document.getElementById("id_email").setAttribute("class", "form-control");
+								document.getElementById("id_email").setAttribute("placeholder", "Enter email");
+
+								document.getElementById("id_password1").setAttribute("class", "form-control");
+								document.getElementById("id_password1").setAttribute("placeholder", "Enter pwd");
+
+								document.getElementById("id_password2").setAttribute("class", "form-control");
+								document.getElementById("id_password2").setAttribute("placeholder", "Re enter pwd");
+							</script>
 							
-							<!-- <div class="form-group">
-								<div class="checkbox checkbox-primary pr-10 pull-left">
-									<input id="checkbox_2" required="" type="checkbox">
-									<label for="checkbox_2"> Keep me logged in</label>
-								</div>
-								<div class="clearfix"></div>
-							</div> -->
 							<div class="form-group text-center">
-								<button type="submit" class="btn btn-info btn-success btn-rounded">Login</button>
+								<button type="submit" class="btn btn-info btn-success btn-rounded">Register</button>
 							</div>
 						</form>
 					</div>

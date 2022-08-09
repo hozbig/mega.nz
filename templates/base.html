@@ -78,6 +78,22 @@
 		<div class="fixed-sidebar-left">
 			<ul class="nav navbar-nav side-nav nicescroll-bar">
 				{% if user.is_authenticated %}
+				<li class="navigation-header">
+					<span>User information</span> 
+					<i class="zmdi zmdi-more"></i>
+				</li>
+				<li>
+					<a>
+						<div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">{{user.username}}</span></div><div class="clearfix"></div>
+					</a>
+				</li>
+				<li>
+					<a>
+						<div class="pull-left"><i class="fa fa-envelope mr-20"></i><span class="right-nav-text">{{user.email}}</span></div><div class="clearfix"></div>
+					</a>
+				</li>
+
+
 			    <li class="navigation-header">
 					<span>Main</span> 
 					<i class="zmdi zmdi-more"></i>
@@ -87,14 +103,14 @@
 						<div class="pull-left"><i class="fa fa-dashboard mr-20"></i><span class="right-nav-text">Dashboard</span></div><div class="clearfix"></div>
 					</a>
 				</li>
-				<li>
-					<a href="admin/"><div class="pull-left"><i class="fa fa-user mr-20"></i><span class="right-nav-text">Admin Panel</span></div><div class="clearfix"></div></a>
-				</li>
 
 				<li><hr class="light-grey-hr mb-10"/></li>
 
 				<li>
 					<a href="{% url "account:logout" %}"><div class="pull-left"><i class="fa fa-sign-out txt-danger mr-20"></i><span class="right-nav-text txt-danger">Logout</span></div><div class="clearfix"></div></a>
+				</li>
+				<li>
+					<a href="admin/"><div class="pull-left"><i class="fa fa-cogs mr-20"></i><span class="right-nav-text">Admin Panel</span></div><div class="clearfix"></div></a>
 				</li>
 				{% else %}
 				<li class="navigation-header">
@@ -102,7 +118,10 @@
 					<i class="zmdi zmdi-more"></i>
 				</li>
 				<li>
-					<a href="{% url "account:login" %}"><div class="pull-left"><i class="fa fa-sign-out txt-success mr-20"></i><span class="right-nav-text txt-success">Login</span></div><div class="clearfix"></div></a>
+					<a class="{% if request.path == '/login/' %}active{% endif %}" href="{% url "account:login" %}"><div class="pull-left"><i class="fa fa-sign-out mr-20"></i><span class="right-nav-text">Login</span></div><div class="clearfix"></div></a>
+				</li>
+				<li>
+					<a class="{% if request.path == '/register/' %}active{% endif %}" href="{% url "account:register" %}"><div class="pull-left"><i class="fa fa-sign-in mr-20"></i><span class="right-nav-text">Register</span></div><div class="clearfix"></div></a>
 				</li>
 				{% endif %}
 			</ul>

@@ -15,7 +15,7 @@ class UploadFile(LoginRequiredMixin, FormValidMixin, SuccessMessageMixin, Create
 
     login_url = 'account:login'
 
-    success_message = 'upload_successfully'
+    success_message = 'Yay! Your file has been uploaded successfully.'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
