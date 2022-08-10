@@ -214,10 +214,10 @@
 </div>
 <!-- /Row -->
 {% else %}
-<div class="row">
+<div class="row text-center">
 	<h1 class="pb-20">Please active your email to use our services.</h1>
-	<a href="" class="">
-	<button class="btn btn-success btn-anim"><i class="fa fa-check"></i><span class="btn-text">send activation email</span></button>
+	<a href="{% url "account:send" user.email %}" class="">
+	<button class="btn btn-primary btn-anim"><i class="fa fa-check"></i><span class="btn-text">send email to {{user.email}}</span></button>
 	</a>
 </div>
 {% endif %}

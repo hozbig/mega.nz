@@ -1,10 +1,13 @@
 from django.contrib.auth import views
 from django.urls import path
-from .views import register_new_user
+from .views import register_new_user, send_activation_email, get_activation_token
 
 app_name = "account"
 urlpatterns = [
 	path("register/", register_new_user, name="register"),
+
+	path("send-activation-email/<str:email>/", send_activation_email, name="send"),
+	path("recive-activation-token/<uidb64>/<token>/", get_activation_token, name="get_token"),
 
 	path('login/', views.LoginView.as_view(), name='login'),
 	path('logout/', views.LogoutView.as_view(), name='logout'),

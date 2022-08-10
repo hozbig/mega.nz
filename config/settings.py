@@ -141,3 +141,11 @@ LOGIN_REDIRECT_URL = "file_manager:upload"
 LOGOUT_REDIRECT_URL = "account:login"
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+EMAIL_FROM = 'Info@datashieldz.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'Smtp.zoho.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'Info@datashieldz.com'
+EMAIL_HOST_PASSWORD = 'q5%PtLNMplnasDf'
+EMAIL_USE_TLS = True
