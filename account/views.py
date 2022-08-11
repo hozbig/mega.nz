@@ -23,7 +23,7 @@ def register_new_user(request):
             login(request, user)
             messages.success(
                 request, "Registration successful. Please confirm you email.")
-            return redirect("file_manager:upload")
+            return redirect("file_manager:dashboard")
         messages.error(
             request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
@@ -67,7 +67,7 @@ def get_activation_token(request, uidb64, token):
             user.email_activation = True
             user.save()
             messages.success(request, "Your email activate successfuly.")
-            return redirect("file_manager:upload")
+            return redirect("file_manager:dashboard")
         else:
             return HttpResponse('Activation link is invalid!')
     else:
