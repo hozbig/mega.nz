@@ -1,10 +1,12 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from account.models import User
+from django.contrib.auth.forms import (AuthenticationForm, UserCreationForm,
+                                       UsernameField)
+from hcaptcha.fields import hCaptchaField
+
+from .models import User
 
 
 # Create your forms here.
-
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
@@ -19,3 +21,12 @@ class NewUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class UserLoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(UserLoginForm, self).__init__(*args, **kwargs)
+
+    username = UsernameField()
+    password = forms.CharField()
+    hcaptcha = hCaptchaField()

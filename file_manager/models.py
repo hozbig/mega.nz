@@ -2,13 +2,7 @@ from account.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
-from django.db.models.signals import pre_save
 from pathlib import Path
-
-
-class FMManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().order_by('-created_time')
 
 
 class FileManager(models.Model):
@@ -24,17 +18,15 @@ class FileManager(models.Model):
 
     created_time = models.DateTimeField(auto_now_add=True, blank=True)
 
-    objects = FMManager()
-
     def __str__(self):
         return f'{self.file} - {self.format} - {self.size}'
 
     def get_absolute_url(self):
         return reverse("file_manager:upload")
 
+    def save(self,*args, **kwargs):
+        self.format = Path(str(self.file)).suffix
+        return super().save(*args, **kwargs)
 
-
-def get_format(sender, instance, *args, **kwargs):
-    instance.format = Path(str(instance.file)).suffix
-
-pre_save.connect(get_format, sender=FileManager)
+    class Meta:
+        ordering = ['-created_time']

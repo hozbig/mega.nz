@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'file_manager',
 
     'crispy_forms',
+    'hcaptcha',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -149,3 +150,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'Info@datashieldz.com'
 EMAIL_HOST_PASSWORD = 'q5%PtLNMplnasDf'
 EMAIL_USE_TLS = True
+
+HCAPTCHA_SITEKEY = '32576b34-4945-451a-a3cf-bef11d5a2a2c'
+HCAPTCHA_SECRET = '0x28203aa701aC443902CD0B3ffba50DBe575b3D3a'

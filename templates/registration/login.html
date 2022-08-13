@@ -12,7 +12,10 @@
 
 {% block custom_style %}{% endblock custom_style %}
 
-{% block head_js %}{% endblock head_js %}
+{% block head_js %}
+<!-- Hcaptcha -->
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+{% endblock head_js %}
 
 {% block main %}
 <!-- Row -->
@@ -47,14 +50,7 @@
 								<div class="clearfix"></div> -->
 								<input type="password" name="password" autocomplete="current-password" required id="id_password" class="form-control" placeholder="Enter pwd">
 							</div>
-							
-							<!-- <div class="form-group">
-								<div class="checkbox checkbox-primary pr-10 pull-left">
-									<input id="checkbox_2" required="" type="checkbox">
-									<label for="checkbox_2"> Keep me logged in</label>
-								</div>
-								<div class="clearfix"></div>
-							</div> -->
+							{{form.hcaptcha}}						
 							<div class="form-group text-center">
 								<button type="submit" class="btn btn-info btn-success btn-rounded">Login</button>
 							</div>
