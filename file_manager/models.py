@@ -24,7 +24,7 @@ class FileManager(models.Model):
     def get_absolute_url(self):
         return reverse("file_manager:upload")
 
-    def save(self,*args, **kwargs):
+    def save(self, *args, **kwargs):
         self.format = Path(str(self.file)).suffix
         return super().save(*args, **kwargs)
 

@@ -231,7 +231,10 @@
 								<tbody>
 									{% for item in object_list %}
 									<tr>
-										<td><span class="txt-dark weight-500">{{item.file|filename}}</span></td>
+										<td>
+											<span class="txt-dark weight-500">{{item.file|filename}}</span>
+											<a href="{% url 'file_manager:delete_file' item.id %}" class="badge badge-danger"><i class="fa fa-trash-o"></i></a>
+										</td>
 										<td><span class="txt-success"><span>{{item.divide_to}}</span></span></td>
 										<td>{{item.format}}</td>
 										<td>

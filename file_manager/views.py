@@ -1,5 +1,7 @@
+from account.models import User
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
@@ -19,7 +21,7 @@ class Dashboard(LoginRequiredMixin, ListView):
         context["form"] = FileManagerForm()
         return context
 
-
+@login_required
 def save_files(request):
     if request.method == 'POST':
         user = request.user
@@ -47,3 +49,15 @@ def save_files(request):
             raise Http404("Access Denide!")
     else:
         return redirect('file_manager:dashboard')
+
+
+@login_required
+def delete_file(request, id):
+    file = FileManager.objects.get(id=id)
+    user = request.user
+    user.user_uploaded_volume -= int(file.size)
+    file.delete()
+    user.save()
+    messages.success(
+                    request, 'Your file deleted successfully.')
+    return redirect('file_manager:dashboard')

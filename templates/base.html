@@ -109,9 +109,6 @@
 				<li>
 					<a href="{% url "account:logout" %}"><div class="pull-left"><i class="fa fa-sign-out txt-danger mr-20"></i><span class="right-nav-text txt-danger">Logout</span></div><div class="clearfix"></div></a>
 				</li>
-				<li>
-					<a href="admin/"><div class="pull-left"><i class="fa fa-cogs mr-20"></i><span class="right-nav-text">Admin Panel</span></div><div class="clearfix"></div></a>
-				</li>
 				{% else %}
 				<li class="navigation-header">
 					<span>First Login</span> 
@@ -122,6 +119,11 @@
 				</li>
 				<li>
 					<a class="{% if request.path == '/register/' %}active{% endif %}" href="{% url "account:register" %}"><div class="pull-left"><i class="fa fa-sign-in mr-20"></i><span class="right-nav-text">Register</span></div><div class="clearfix"></div></a>
+				</li>
+				{% endif %}
+				{% if user.is_superuser %}
+				<li>
+					<a href="admin/"><div class="pull-left"><i class="fa fa-cogs mr-20"></i><span class="right-nav-text">Admin Panel</span></div><div class="clearfix"></div></a>
 				</li>
 				{% endif %}
 			</ul>
