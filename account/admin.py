@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User
+from .models import User, Level
 
 UserAdmin.fieldsets[1][1]['fields'] = (
     "first_name", "last_name", "email", "email_activation"
@@ -8,6 +8,7 @@ UserAdmin.fieldsets[1][1]['fields'] = (
 UserAdmin.fieldsets[2][1]['fields'] = (
     "is_active",
     "premium",
+    "user_level",
     "is_staff",
     "is_superuser",
     "groups",
@@ -21,3 +22,5 @@ UserAdmin.list_display = (
 )
 
 admin.site.register(User, UserAdmin)
+
+admin.site.register(Level)
