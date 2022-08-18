@@ -25,7 +25,7 @@ class Dashboard(LoginRequiredMixin, ListView):
 def save_files(request):
     if request.method == 'POST':
         user = request.user
-        if user.user_uploaded_volume <= 2147483648 or user.premium:
+        if user.user_uploaded_volume <= user.user_level.max_upload_file or user.premium:
             form = FileManagerForm(request.POST or None, request.FILES or None)
             files = request.FILES.getlist('file')
             file_divide_to = request.POST['divide_to']

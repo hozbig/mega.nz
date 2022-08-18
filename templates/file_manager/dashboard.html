@@ -82,7 +82,7 @@
 							<div class="row">
 								<div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
 									<span class="txt-warning block counter">{{user.premium|time_difference}}</span>
-									<span class="weight-500 uppercase-font block">Premium</span>
+									<span class="weight-500 uppercase-font block">Premium ({{user.user_level}})</span>
 								</div>
 								<div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
 									<i class="icon-diamond data-right-rep-icon txt-warning"></i>
@@ -91,7 +91,7 @@
 							{% else %}
 						    <div class="row">
 								<div class="col-xs-6 text-center pl-0 pr-0 data-wrap-left">
-									<span class="txt-danger block counter"><span class="counter-anim">{{ user.user_uploaded_volume|percentage }}</span>%</span>
+									<span class="txt-danger block counter"><span class="counter-anim">{{ user.user_uploaded_volume|percentage:user.user_level.max_upload }}</span>%</span>
 									<span class="weight-500 uppercase-font block">upload limit</span>
 								</div>
 								<div class="col-xs-6 text-center  pl-0 pr-0 data-wrap-right">
@@ -121,33 +121,7 @@
 			<div class="panel-wrapper collapse in">
 				<div class="panel-body">
 					<div class="">
-						{% if not user.user_uploaded_volume >= 2147483648 %}
-						<!-- <form method="post" enctype="multipart/form-data">
-							{% csrf_token %}
-							{{form|crispy}}
-							<script>
-								document.getElementById("id_file").setAttribute("class", "dropify");
-								document.getElementById("id_file").setAttribute(
-									"data-max-file-size",
-									{% if user.is_premium %}
-									"1G"
-									{% else %}
-									"{{user.user_uploaded_volume|rest_of_limit}}"
-									{% endif %}
-									);
-								document.getElementById("id_file").setAttribute("type", "file");
-
-								document.getElementById("div_id_size").setAttribute("hidden", "");
-								document.getElementById("id_file").setAttribute("onchange", "get_file_size()");
-
-								function get_file_size() {
-									var fileSize = document.getElementById('id_file').files[0].size;
-									document.getElementById("id_size").setAttribute("value", fileSize);
-								}
-							</script>
-							<button type="submit" class="btn btn-block btn-success mt-10">Submit</button>
-						</form>  -->
-
+						{% if not user.user_uploaded_volume >= user.user_level.max_upload %}
 						<form
 						method="POST"
 						action="{% url 'file_manager:save_files' %}"
@@ -163,10 +137,10 @@
 								document.getElementById("id_file").setAttribute("Multiple", "");
 								document.getElementById("id_file").setAttribute(
 									"data-max-file-size",
-									{% if user.is_premium %}
-									"1G"
+									{% if user.user_level.max_upload_file %}
+									"{{user.user_uploaded_volume|rest_of_limit:user.user_level.max_upload_file}}"
 									{% else %}
-									"{{user.user_uploaded_volume|rest_of_limit}}"
+									"1G" // Hardcode
 									{% endif %}
 									);
 								document.getElementById("id_file").setAttribute("type", "file");

@@ -15,12 +15,12 @@ def filename(value):
         return "NoFile!"
 
 @register.filter()
-def percentage(value):
-    return round((value*100)/2147483648)
+def percentage(value, max):
+    return round((value*100)/max)
 
 @register.filter()
-def rest_of_limit(value):
-    res = 2147483648 - value
+def rest_of_limit(value, max_file):
+    res = max_file - value
     if res > 1024:
         return size(res)
     if res <= 1024:
